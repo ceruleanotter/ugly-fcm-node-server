@@ -2,8 +2,19 @@
 const path = require('path')  
 const express = require('express')  
 const exphbs = require('express-handlebars')
-var serverkey = require('server-key.js');
-//var fcmMessage = new FCMCode();
+var keys = require('keys.js');
+
+var MarkovChain = require('markovchain')
+  , fs = require('fs')
+  , quotes = new MarkovChain(fs.readFileSync('./corpus/test.txt', 'utf8'))
+  
+var useUpperCase = function(wordList) {
+  var tmpList = Object.keys(wordList).filter(function(word) {
+    return word[0] >= 'A' && word[0] <= 'Z'
+  })
+  return tmpList[~~(Math.random()*tmpList.length)]
+}
+ 
 
 
 var FCM = require('fcm-node');
@@ -11,22 +22,24 @@ var FCM = require('fcm-node');
 
 function sendFCMMessage() {
 
-	console.log(serverkey.serverkey);
-	var fcm = new FCM(serverkey.key);
+	console.log(keys.server);
+	var fcm = new FCM(keys.server);
+	var markovMessage = quotes.start(useUpperCase).end().process()
 
 	var message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-	    to: 'ccDNmEbbF4k:APA91bEB7H4zwTXrkhHdOWYqxKjJ9aQHu0kIl-RL597y0g7iH77UCMSm05RQ1Llk5Qng0tdnarnwRcDGYXeHj6B5tgOvakU7H_DHt0zVsHXKP-9D-2iuZAOACpjSkL3mRAib8a-FCu2h', 
-	    collapse_key: 'ccDNmEbbF4k:APA91bEB7H4zwTXrkhHdOWYqxKjJ9aQHu0kIl-RL597y0g7iH77UCMSm05RQ1Llk5Qng0tdnarnwRcDGYXeHj6B5tgOvakU7H_DHt0zVsHXKP-9D-2iuZAOACpjSkL3mRAib8a-FCu2h',
+	    to: keys.client, 
+	    collapse_key: keys.client,
 	    
 
 	    notification: {
 	        title: 'Lyla\'s Message', 
-	        body: 'Still working' 
+	        body: 'New message arrived' 
 	    },
 	    
 	    data: {  //you can send only notification or only data(or include both)
-	        my_key: 'my value',
-	        my_another_key: 'my another value'
+	        author: 'TheRealFCMBot',
+	        message: markovMessage,
+	        date: Date.now()
 	    }
 	};
 
