@@ -44,6 +44,7 @@ function sendFCMMessage() {
 	};
 
 	fcm.send(message, function(err, response){
+		console.log("Tried to send message: ", message);
 	    if (err) {
 	        console.log("Something has gone wrong!");
 	    } else {
