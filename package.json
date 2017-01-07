@@ -9,7 +9,6 @@
     "express-handlebars": "^3.0.0",
     "fcm-node": "^1.0.16",
     "httpdispatcher": "^2.0.1",
-    "keys.js": "^1.0.2",
     "markovchain": "^1.0.2"
   },
   "devDependencies": {},

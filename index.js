@@ -25,7 +25,7 @@ LOG_LEVEL=INFO FCK_KEY=12345 PORT=8080 npm start
 const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
-const keys = require('keys.js');
+const keys = require('./keys.json');
 const MarkovChain = require('markovchain');
 const fs = require('fs');
 const FCM = require('fcm-node');
@@ -41,6 +41,8 @@ const log = bunyan.createLogger({
     level: process.env.LOG_LEVEL || bunyan.INFO,
 }); // a global bunyan logger
 const serverkey = process.env.FCM_KEY || keys.server;
+
+
 const quotes = new MarkovChain(fs.readFileSync('./corpus/test.txt', 'utf8')); // a markhov chain of all words in the corpus file
 
 // Global Functions
@@ -52,7 +54,6 @@ const useUpperCase = function(wordList) {
 }
 
 const sendFCMMessage = function() {
-
 	const message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
 	    to: keys.client,
 	    collapse_key: keys.client,
