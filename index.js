@@ -21,7 +21,7 @@ A full launch with all options set might look like:
 LOG_LEVEL=INFO FCK_KEY=12345 PORT=8080 npm start
 */
 
-// Packge Requires
+// Package Requires
 const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
@@ -31,8 +31,17 @@ const fs = require('fs');
 const FCM = require('fcm-node');
 const bunyan = require('bunyan'); // a fast happy logging library for node
 
+
+var bodyParser = require('body-parser')
+
 // Global Variables
 const app = express(); // the express application
+// setup parsing for express
+app.use( bodyParser.json() );       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+  extended: true
+})); 
+
 const log = bunyan.createLogger({
     name: 'ugly-fcm-node-server',
     serializers: {
@@ -53,12 +62,12 @@ const useUpperCase = function(wordList) {
   return tmpList[~~(Math.random()*tmpList.length)];
 }
 
-const sendFCMMessage = function() {
+const sendFCMMessage = function(clientToken) {
+
+log.info("client token is " + clientToken)
+
 	const message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-	    to: keys.client,
-	    collapse_key: keys.client,
-
-
+	    to: "/topics/key_asser",
 	    notification: {
 	        title: 'Lyla\'s Message',
 	        body: 'New message arrived'
@@ -83,6 +92,13 @@ const sendFCMMessage = function() {
 	});
 }
 
+
+
+
+//Inputs 
+
+const clientTokenInputName = 'clientApiKey'
+
 // ExpressJS Configuration
 app.engine('.hbs', exphbs({
   defaultLayout: 'main',
@@ -94,13 +110,14 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.get('/', (request, response) => {
   response.render('home', {
-    name: 'Lyla'
+    name: 'Lyla',
+    clientToken: clientTokenInputName
   })
 })
 
 app.post('/', function(req, res) {
   log.debug({req:req}, 'Request body was %s', req.body);
-  sendFCMMessage();
+  sendFCMMessage(req.body.clientApiKey) // How can I set this to clientTokenInputName's value instead of hardcoding?
   res.send(200);
 });
 

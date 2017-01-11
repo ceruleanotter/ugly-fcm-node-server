@@ -4,6 +4,7 @@
   "description": "test server for sending fcm messages on node",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "bunyan": "^1.8.5",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
