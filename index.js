@@ -31,7 +31,6 @@ const fs = require('fs');
 const FCM = require('fcm-node');
 const bunyan = require('bunyan'); // a fast happy logging library for node
 
-
 var bodyParser = require('body-parser')
 
 // Global Variables
@@ -51,8 +50,30 @@ const log = bunyan.createLogger({
 }); // a global bunyan logger
 const serverkey = process.env.FCM_KEY || keys.server;
 
+//Inputs 
 
-const quotes = new MarkovChain(fs.readFileSync('./corpus/test.txt', 'utf8')); // a markhov chain of all words in the corpus file
+const CLIENT_API_KEY = 'clientApiKey'
+const ASSER_KEY = 'key_asser'
+const CEZANNE_KEY = 'key_cezanne'
+const JLIN_KEY = 'key_jlin'
+const LYLA_KEY = 'key_lyla'
+const NIKITA_KEY = 'key_nikita'
+const RANDOM_KEY = 'key_random'
+
+
+var courseDevelopersDict = {};
+
+const courseDeveloperKeys = [ ASSER_KEY, CEZANNE_KEY, JLIN_KEY, LYLA_KEY, NIKITA_KEY ];
+
+function CourseDeveloper(key) {
+	this.key = key;
+	var nameLower = (key.replace("key_", ""))
+	var nameUpper = nameLower.charAt(0).toUpperCase() + nameLower.slice(1);
+	this.name = nameUpper;
+	var markovFile = './corpus/' + nameLower + '.txt';
+	this.markovChain = 	new MarkovChain(fs.readFileSync(markovFile, 'utf8')); // a markhov chain of all words in the corpus file
+}
+
 
 // Global Functions
 const useUpperCase = function(wordList) {
@@ -62,26 +83,71 @@ const useUpperCase = function(wordList) {
   return tmpList[~~(Math.random()*tmpList.length)];
 }
 
-const sendFCMMessage = function(clientToken) {
 
-log.info("client token is " + clientToken)
+function setupCDObjects() {
+	log.info("course dev keys is %o ", courseDeveloperKeys)
+	log.info("length is " + courseDeveloperKeys.length)
+	for (var i = 0; i < courseDeveloperKeys.length; i++) {
+		var key = courseDeveloperKeys[i];
+		log.info("on key " + key)
+		courseDevelopersDict[key] = new CourseDeveloper(key);
+	}
+	//log.info("Object setup run and finished with the following dict " + JSON.stringify(courseDevelopersDict));
+}
 
-	const message = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
-	    to: "/topics/key_asser",
+
+
+
+function generateMessage(courseDeveloper) {
+	if (courseDeveloper === RANDOM_KEY) {
+		//get a random course developer
+		courseDeveloper = courseDeveloperKeys[Math.floor(Math.random()*courseDeveloperKeys.length)];
+	}
+	var cdObject =  courseDevelopersDict[courseDeveloper];
+
+	var author = "TheReal" + cdObject.name;
+	var message = cdObject.markovChain.start(useUpperCase).end().process();
+
+	// if the message length is greater than 140, reduce the length of the message to less than that
+	if (message.length > 140) {
+		message = message.slice(0,message.lastIndexOf(" ",140));
+	}
+
+
+	return {
+		author : author,
+		message : message
+	}
+}
+
+const sendFCMMessage = function(clientToken, courseDeveloper) {
+setupCDObjects();
+
+// check who the course developer is, if it's random, then send to the api key
+	var sendTo = "/topics/" + courseDeveloper
+	if (courseDeveloper === RANDOM_KEY) {
+		sendTo = clientToken	
+	}
+	var markovMessage = generateMessage(courseDeveloper)
+
+	log.info("sendTo is " + sendTo)
+	log.info("markovMessage is " + markovMessage)
+	const message = {
+	    to: sendTo,
 	    notification: {
 	        title: 'Lyla\'s Message',
 	        body: 'New message arrived'
 	    },
 
 	    data: {  //you can send only notification or only data(or include both)
-	        author: 'TheRealFCMBot',
-	        message: quotes.start(useUpperCase).end().process(),
+	        author: markovMessage.author,
+	        message: markovMessage.message,
 	        date: Date.now()
 	    }
 	};
 
-  log.debug('creating an fcm connection using key %s', serverkey);
-  const fcm = new FCM(keys.server); // the Firebase Cloud Messaging connection
+	log.debug('creating an fcm connection using key %s', serverkey);
+	const fcm = new FCM(keys.server); // the Firebase Cloud Messaging connection
 	fcm.send(message, function(err, response){
 		log.debug('Tried to send message: %s', message);
 	    if (err) {
@@ -93,11 +159,6 @@ log.info("client token is " + clientToken)
 }
 
 
-
-
-//Inputs 
-
-const clientTokenInputName = 'clientApiKey'
 
 // ExpressJS Configuration
 app.engine('.hbs', exphbs({
@@ -111,13 +172,19 @@ app.set('views', path.join(__dirname, 'views'))
 app.get('/', (request, response) => {
   response.render('home', {
     name: 'Lyla',
-    clientToken: clientTokenInputName
+    clientToken: CLIENT_API_KEY,
+    asser_key: ASSER_KEY,
+    cezanne_key: CEZANNE_KEY,
+    jlin_key: JLIN_KEY,
+    lyla_key: LYLA_KEY,
+    nikita_key: NIKITA_KEY,
+    random_key: RANDOM_KEY
   })
 })
 
 app.post('/', function(req, res) {
   log.debug({req:req}, 'Request body was %s', req.body);
-  sendFCMMessage(req.body.clientApiKey) // How can I set this to clientTokenInputName's value instead of hardcoding?
+  sendFCMMessage(req.body.clientApiKey, req.body.groupCD) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
   res.send(200);
 });
 
