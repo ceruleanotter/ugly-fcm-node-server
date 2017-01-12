@@ -78,11 +78,10 @@ inMemoryMessageQ.addMessage = function (message) {
 	}
 }
 inMemoryMessageQ.generateMessage = function(courseDeveloper) {
-	if (courseDeveloper === RANDOM_KEY) {
-		//get a random course developer
-		courseDeveloper = courseDeveloperKeys[Math.floor(Math.random()*courseDeveloperKeys.length)];
-	}
+	
 	var cdObject =  courseDevelopersDict[courseDeveloper];
+	
+	log.info("course developer is ", cdObject)
 
 	var author = "TheReal" + cdObject.name;
 	var message = cdObject.markovChain.start(useUpperCase).end().process();
@@ -105,7 +104,7 @@ inMemoryMessageQ.generateMessage = function(courseDeveloper) {
 
 inMemoryMessageQ.addInitialVals = function() {
 	for (var i = 0; i < INITIAL_Q_SIZE; i++) {
-		this.generateMessage(RANDOM_KEY);
+		this.generateMessage(getRandomCD());
 	}
 }
 
@@ -126,6 +125,11 @@ function CourseDeveloper(key) {
 
 
 // Global Functions
+
+function getRandomCD() {
+	return courseDeveloperKeys[Math.floor(Math.random()*courseDeveloperKeys.length)];
+}
+
 const useUpperCase = function(wordList) {
   var tmpList = Object.keys(wordList).filter(function(word) {
     return word[0] >= 'A' && word[0] <= 'Z'
@@ -158,10 +162,21 @@ function setupCDObjects() {
 const sendFCMMessage = function(clientToken, courseDeveloper) {
 
 // check who the course developer is, if it's random, then send to the api key
-	var sendTo = "/topics/" + courseDeveloper
-	if (courseDeveloper === RANDOM_KEY) {
-		sendTo = clientToken	
+	var sendTo = ""
+
+	if (courseDeveloper === RANDOM_KEY || clientToken != null) {
+		//get a random course developer
+		courseDeveloper = getRandomCD();
 	}
+
+	if (clientToken != null) {
+		sendTo = clientToken;
+	} else {
+		sendTo = "/topics/" + courseDeveloper;
+	} 
+
+
+
 	var markovMessage = inMemoryMessageQ.generateMessage(courseDeveloper)
 
 	log.info("sendTo is " + sendTo)
@@ -225,13 +240,17 @@ app.get('/messages', (req, res) => {
 });
 
 
-app.post('/', function(req, res) {
+app.post('/dm', function(req, res) {
   log.debug({req:req}, 'Request body was %s', req.body);
-  var message = sendFCMMessage(req.body.clientApiKey, req.body.groupCD) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
+  var message = sendFCMMessage(req.body.clientApiKey, null) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
   res.send(message);
 });
 
-
+app.post('/cd', function(req, res) {
+  log.debug({req:req}, 'Request body was %s', req.body);
+  var message = sendFCMMessage(null, req.body.groupCD) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
+  res.send(message);
+});
 
 
 

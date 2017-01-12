@@ -1,12 +1,27 @@
 <h2>The Squawker Server</h2>
-Hi {{name}}, enter the API Key of the Squawk you want to send
-<form method="post" action="/">
+This is a server for sending Squawks. You can either directly message a single phone, or send a message to all phone listening for certain CDs
+
+<h3>Direct Message Phone Random Squawk</h3>
+Enter the ID token of the phone to send a random Squawk to.
+<br/>
+<br/>
+<form method="post" action="/dm">
   <input type="test" name="{{clientToken}}"><br/>
+  <br/>
+  <input type="submit" value="Send Squawk">
+</form>
+
+<h3>Direct Message Phone Random Squawk</h3>
+Choose which course developer sends the squawk. Use this for testing topic messages.
+<br/>
+<br/>
+<form method="post" action="/cd">
   <input type="radio" name="groupCD" value="{{asser_key}}"> Asser<br/>
   <input type="radio" name="groupCD" value="{{cezanne_key}}" > Cezanne<br/>
   <input type="radio" name="groupCD" value="{{jlin_key}}" > Jessica<br/>
   <input type="radio" name="groupCD" value="{{lyla_key}}" > Lyla<br/>
   <input type="radio" name="groupCD" value="{{nikita_key}}" > Nikita<br/>
   <input type="radio" name="groupCD" value="{{random_key}}" checked> Random<br/>
+  <br/>
   <input type="submit" value="Send Squawk">
 </form>
