@@ -65,6 +65,56 @@ var courseDevelopersDict = {};
 
 const courseDeveloperKeys = [ ASSER_KEY, CEZANNE_KEY, JLIN_KEY, LYLA_KEY, NIKITA_KEY ];
 
+
+// Queue
+const Q_SIZE = 1000;
+const INITIAL_Q_SIZE = 20;
+
+var inMemoryMessageQ = new Array();
+inMemoryMessageQ.addMessage = function (message) {
+	// Add the message and then removes old messages until it's down to the correct size
+	if (this.unshift(message) > Q_SIZE) {
+		while (this.length > Q_SIZE) this.pop();
+	}
+}
+inMemoryMessageQ.generateMessage = function(courseDeveloper) {
+	if (courseDeveloper === RANDOM_KEY) {
+		//get a random course developer
+		courseDeveloper = courseDeveloperKeys[Math.floor(Math.random()*courseDeveloperKeys.length)];
+	}
+	var cdObject =  courseDevelopersDict[courseDeveloper];
+
+	var author = "TheReal" + cdObject.name;
+	var message = cdObject.markovChain.start(useUpperCase).end().process();
+
+	// if the message length is greater than 140, reduce the length of the message to less than that
+	if (message.length > 140) {
+		message = message.slice(0,message.lastIndexOf(" ",140));
+	}
+
+	var messageObject = {
+		author : author,
+		message : message, 
+		date : Date.now()
+	};
+
+	// Add message to the queue
+	inMemoryMessageQ.addMessage(messageObject);
+	return messageObject;
+}
+
+inMemoryMessageQ.addInitialVals = function() {
+	for (var i = 0; i < INITIAL_Q_SIZE; i++) {
+		this.generateMessage(RANDOM_KEY);
+	}
+}
+
+
+
+
+
+
+// Classes
 function CourseDeveloper(key) {
 	this.key = key;
 	var nameLower = (key.replace("key_", ""))
@@ -92,43 +142,27 @@ function setupCDObjects() {
 		log.info("on key " + key)
 		courseDevelopersDict[key] = new CourseDeveloper(key);
 	}
+
+	// need to add a bunch of initial Q messages
+	inMemoryMessageQ.addInitialVals();
+
 	//log.info("Object setup run and finished with the following dict " + JSON.stringify(courseDevelopersDict));
 }
 
 
 
 
-function generateMessage(courseDeveloper) {
-	if (courseDeveloper === RANDOM_KEY) {
-		//get a random course developer
-		courseDeveloper = courseDeveloperKeys[Math.floor(Math.random()*courseDeveloperKeys.length)];
-	}
-	var cdObject =  courseDevelopersDict[courseDeveloper];
-
-	var author = "TheReal" + cdObject.name;
-	var message = cdObject.markovChain.start(useUpperCase).end().process();
-
-	// if the message length is greater than 140, reduce the length of the message to less than that
-	if (message.length > 140) {
-		message = message.slice(0,message.lastIndexOf(" ",140));
-	}
 
 
-	return {
-		author : author,
-		message : message
-	}
-}
 
 const sendFCMMessage = function(clientToken, courseDeveloper) {
-setupCDObjects();
 
 // check who the course developer is, if it's random, then send to the api key
 	var sendTo = "/topics/" + courseDeveloper
 	if (courseDeveloper === RANDOM_KEY) {
 		sendTo = clientToken	
 	}
-	var markovMessage = generateMessage(courseDeveloper)
+	var markovMessage = inMemoryMessageQ.generateMessage(courseDeveloper)
 
 	log.info("sendTo is " + sendTo)
 	log.info("markovMessage is " + markovMessage)
@@ -142,7 +176,7 @@ setupCDObjects();
 	    data: {  //you can send only notification or only data(or include both)
 	        author: markovMessage.author,
 	        message: markovMessage.message,
-	        date: Date.now()
+	        date: markovMessage.date
 	    }
 	};
 
@@ -156,9 +190,13 @@ setupCDObjects();
 	        log.info({response:response}, 'Successfully sent with response: %s', response);
 	    }
 	});
+	return message
 }
 
 
+
+// CD object configuration
+setupCDObjects();
 
 // ExpressJS Configuration
 app.engine('.hbs', exphbs({
@@ -182,11 +220,21 @@ app.get('/', (request, response) => {
   })
 })
 
+app.get('/messages', (req, res) => {
+	res.json(inMemoryMessageQ)
+});
+
+
 app.post('/', function(req, res) {
   log.debug({req:req}, 'Request body was %s', req.body);
-  sendFCMMessage(req.body.clientApiKey, req.body.groupCD) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
-  res.send(200);
+  var message = sendFCMMessage(req.body.clientApiKey, req.body.groupCD) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
+  res.send(message);
 });
+
+
+
+
+
 
 const port = process.env.PORT || 3000;
 
