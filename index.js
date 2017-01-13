@@ -50,6 +50,10 @@ const log = bunyan.createLogger({
 }); // a global bunyan logger
 const serverkey = process.env.FCM_KEY || keys.server;
 
+
+const testMarkovFile = './corpus/test.txt';
+const testMarkov = new MarkovChain(fs.readFileSync(testMarkovFile, 'utf8'));
+
 //Inputs 
 
 const CLIENT_API_KEY = 'clientApiKey'
@@ -59,7 +63,7 @@ const JLIN_KEY = 'key_jlin'
 const LYLA_KEY = 'key_lyla'
 const NIKITA_KEY = 'key_nikita'
 const RANDOM_KEY = 'key_random'
-
+const TEST_KEY = 'key_test'
 
 var courseDevelopersDict = {};
 
@@ -109,10 +113,6 @@ inMemoryMessageQ.addInitialVals = function() {
 }
 
 
-
-
-
-
 // Classes
 function CourseDeveloper(key) {
 	this.key = key;
@@ -157,35 +157,67 @@ function setupCDObjects() {
 
 
 
+const sendTestFCMMessage = function(clientToken) {
+	var testMessage = testMarkov.start(useUpperCase).end().process();
+
+	const message = {
+	    to: clientToken,
+	    notification: {
+	        title: 'Squawk from TestAccount',
+	        body: testMessage.slice(0,30)
+	    },
+
+	    data: {  //you can send only notification or only data(or include both)
+	        author: 'TestAccount',
+	        message: testMessage,
+	        date: Date.now(),
+	        test: true
+	    }
+	};
+
+	log.debug('creating an fcm connection using key %s', serverkey);
+	const fcm = new FCM(keys.server); // the Firebase Cloud Messaging connection
+	fcm.send(message, function(err, response){
+		log.debug('Tried to send message: %s', message);
+	    if (err) {
+	        log.error({err:err}, 'Operation went boom: %s', err);
+	    } else {
+	        log.info({response:response}, 'Successfully sent with response: %s', response);
+	    }
+	});
+	return message
 
 
-const sendFCMMessage = function(clientToken, courseDeveloper) {
+}
+
+
+
+
+const sendFCMMessage = function(courseDeveloper) {
 
 // check who the course developer is, if it's random, then send to the api key
-	var sendTo = ""
 
-	if (courseDeveloper === RANDOM_KEY || clientToken != null) {
+	if (courseDeveloper === RANDOM_KEY) {
 		//get a random course developer
 		courseDeveloper = getRandomCD();
 	}
-
-	if (clientToken != null) {
-		sendTo = clientToken;
-	} else {
-		sendTo = "/topics/" + courseDeveloper;
-	} 
-
-
+	var sendTo = "/topics/" + courseDeveloper;
 
 	var markovMessage = inMemoryMessageQ.generateMessage(courseDeveloper)
 
 	log.info("sendTo is " + sendTo)
 	log.info("markovMessage is " + markovMessage)
+	var shortMessage = markovMessage.message;
+	if (shortMessage.length > 30) {
+		shortMessage.slice(0,30) +  "&#8230;"
+	}
+
 	const message = {
 	    to: sendTo,
 	    notification: {
-	        title: 'Lyla\'s Message',
-	        body: 'New message arrived'
+	        title: 'Squawk from ' + markovMessage.author,
+	        body: markovMessage.message.slice(0,30),
+	        click_action: "SYNC_DATA_WITH_SQUAWKER"
 	    },
 
 	    data: {  //you can send only notification or only data(or include both)
@@ -242,13 +274,13 @@ app.get('/messages', (req, res) => {
 
 app.post('/dm', function(req, res) {
   log.debug({req:req}, 'Request body was %s', req.body);
-  var message = sendFCMMessage(req.body.clientApiKey, null) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
+  var message = sendTestFCMMessage(req.body.clientApiKey) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
   res.send(message);
 });
 
 app.post('/cd', function(req, res) {
   log.debug({req:req}, 'Request body was %s', req.body);
-  var message = sendFCMMessage(null, req.body.groupCD) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
+  var message = sendFCMMessage(req.body.groupCD) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
   res.send(message);
 });
 
