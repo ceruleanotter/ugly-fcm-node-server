@@ -81,7 +81,7 @@ inMemoryMessageQ.addMessage = function (message) {
 		while (this.length > Q_SIZE) this.pop();
 	}
 }
-inMemoryMessageQ.generateMessage = function(courseDeveloper) {
+inMemoryMessageQ.generateMessage = function(courseDeveloper, time) {
 	
 	var cdObject =  courseDevelopersDict[courseDeveloper];
 	
@@ -98,7 +98,7 @@ inMemoryMessageQ.generateMessage = function(courseDeveloper) {
 	var messageObject = {
 		author : author,
 		message : message, 
-		date : Date.now()
+		date : time
 	};
 
 	// Add message to the queue
@@ -108,8 +108,15 @@ inMemoryMessageQ.generateMessage = function(courseDeveloper) {
 
 inMemoryMessageQ.addInitialVals = function() {
 	for (var i = 0; i < INITIAL_Q_SIZE; i++) {
-		this.generateMessage(getRandomCD());
+		// Random time from now till two days before now
+		this.generateMessage(getRandomCD(), Date.now() - getRandomInt(0, 1000*60*60*48));
 	}
+
+	this.sort(function(a,b){
+  		// Turn your strings into dates, and then subtract them
+  		// to get a value that is either negative, positive, or zero.
+  		return new Date(b.date) - new Date(a.date);
+	});
 }
 
 
@@ -125,6 +132,14 @@ function CourseDeveloper(key) {
 
 
 // Global Functions
+
+/**
+ * Returns a random integer between min (inclusive) and max (inclusive)
+ * Using Math.round() will give you a non-uniform distribution!
+ */
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
 function getRandomCD() {
 	return courseDeveloperKeys[Math.floor(Math.random()*courseDeveloperKeys.length)];
@@ -203,7 +218,7 @@ const sendFCMMessage = function(courseDeveloper) {
 	}
 	var sendTo = "/topics/" + courseDeveloper;
 
-	var markovMessage = inMemoryMessageQ.generateMessage(courseDeveloper)
+	var markovMessage = inMemoryMessageQ.generateMessage(courseDeveloper, Date.now())
 
 	log.info("sendTo is " + sendTo)
 	log.info("markovMessage is " + markovMessage)
@@ -214,11 +229,6 @@ const sendFCMMessage = function(courseDeveloper) {
 
 	const message = {
 	    to: sendTo,
-	    notification: {
-	        title: 'Squawk from ' + markovMessage.author,
-	        body: markovMessage.message.slice(0,30),
-	        click_action: "SYNC_DATA_WITH_SQUAWKER"
-	    },
 
 	    data: {  //you can send only notification or only data(or include both)
 	        author: markovMessage.author,
