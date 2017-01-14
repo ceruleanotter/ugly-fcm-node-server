@@ -177,11 +177,6 @@ const sendTestFCMMessage = function(clientToken) {
 
 	const message = {
 	    to: clientToken,
-	    notification: {
-	        title: 'Squawk from TestAccount',
-	        body: testMessage.slice(0,30)
-	    },
-
 	    data: {  //you can send only notification or only data(or include both)
 	        author: 'TestAccount',
 	        message: testMessage,
