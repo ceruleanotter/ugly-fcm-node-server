@@ -125,6 +125,12 @@ function CourseDeveloper(key) {
 	this.key = key;
 	var nameLower = (key.replace("key_", ""))
 	var nameUpper = nameLower.charAt(0).toUpperCase() + nameLower.slice(1);
+	if (key === JLIN_KEY) {
+		nameUpper = "JLin";
+	}
+
+
+
 	this.name = nameUpper;
 	var markovFile = './corpus/' + nameLower + '.txt';
 	this.markovChain = 	new MarkovChain(fs.readFileSync(markovFile, 'utf8')); // a markhov chain of all words in the corpus file

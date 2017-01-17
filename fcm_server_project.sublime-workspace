@@ -4,8 +4,72 @@
 		"selected_items":
 		[
 			[
+				"getR",
+				"getRandomInt"
+			],
+			[
+				"testMa",
+				"testMarkov〔variable〕"
+			],
+			[
+				"l",
+				"length"
+			],
+			[
+				"sho",
+				"shortMessage"
+			],
+			[
+				"cour",
+				"courseDeveloper"
+			],
+			[
+				"gene",
+				"generateMessage"
+			],
+			[
+				"IN",
+				"INITIAL_Q_SIZE"
+			],
+			[
+				"add",
+				"addMessage"
+			],
+			[
+				"mess",
+				"message"
+			],
+			[
+				"message",
+				"messageObject"
+			],
+			[
 				"mark",
 				"markovMessage"
+			],
+			[
+				"mar",
+				"markovMessage"
+			],
+			[
+				"setup",
+				"setupCDObjects"
+			],
+			[
+				"cou",
+				"courseDeveloper"
+			],
+			[
+				"courseDeveloper",
+				"courseDevelopersDict"
+			],
+			[
+				"send",
+				"sendTo"
+			],
+			[
+				"client",
+				"clientToken"
 			],
 			[
 				"server",
@@ -450,70 +514,6 @@
 			[
 				"be",
 				"insertBefore  (function)"
-			],
-			[
-				"worksheetJ",
-				"worksheetJobs"
-			],
-			[
-				"COL_SI",
-				"COL_COMPANY_SIZE"
-			],
-			[
-				"Pos",
-				"Position"
-			],
-			[
-				"PUN",
-				"PUNCTUATION_STRING"
-			],
-			[
-				"multi",
-				"multi-threaded"
-			],
-			[
-				"com",
-				"company"
-			],
-			[
-				"api",
-				"apiurl"
-			],
-			[
-				"found",
-				"foundyears"
-			],
-			[
-				"c",
-				"company"
-			],
-			[
-				"COL_",
-				"COL_SKILLS"
-			],
-			[
-				"skills",
-				"skillsOfJob"
-			],
-			[
-				"skill",
-				"skillsOfJob"
-			],
-			[
-				"foun",
-				"foundSkill"
-			],
-			[
-				"fou",
-				"foundSkill"
-			],
-			[
-				"sk",
-				"skillDict"
-			],
-			[
-				"COL",
-				"COL_GITHUB_ID"
 			]
 		]
 	},
@@ -523,41 +523,119 @@
 			"file": "index.js",
 			"settings":
 			{
-				"buffer_size": 1854,
+				"buffer_size": 8740,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "01-13 17:40:29.632 23421-23421/android.example.com.squawker D/MainActivity: InstanceID Token: e46k7HzYZLU:APA91bG-e1LM3PfsFz6qFJWSN8F_cR28PRUKoNZNGZAfqHXX0jkGwkucDWLBT38c_8c9fiWMs3al8IsSxcR3wgAvASYfHCLZqKfSfH4tOZllAU8ndgQe0fD_yhwr3ffJScTA5FBFpDmI\n",
+			"settings":
+			{
+				"buffer_size": 247,
+				"line_ending": "Unix",
+				"name": "01-13 17:40:29.632 23421-23421/android.example.com"
+			}
+		},
+		{
+			"contents": "",
+			"settings":
+			{
+				"buffer_size": 0,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "spammy people keep clicking, then what? <--- this might be a real problem the more I think about it ;_;\n//when someone you're following sends a message - download everything\n- bugs probably need to do a single top somewhere\n\n//need to only show cds who you're following\n\n\n\n\n\n\nIf it's in the background, then onReceived is not called, but the generic notification message comes through, the app opens and it has data stored in the intent\n\nIn the case where the app is in the foreground, onMessageReceived is called with data\n\n\nAlso, when I'm testing out sending topic messages from the console and getting unexpected behavior -- when the app is in the background, onMessageReceived is NOT called and an intent is spawned with the data in fields in the extras. When the app is in the foreground, onMessageReceived is called, with the data populated\n\n\n\nhttps://www.interviewcake.com/question/java/rectangular-love?\n\nSan Francisco --- Pivotal Labs - consultancy arm - clients in house \n\n659 965 1595\n\n\n",
+			"settings":
+			{
+				"buffer_size": 998,
+				"line_ending": "Unix",
+				"name": "spammy people keep clicking, then what? <--- this"
+			}
+		},
+		{
+			"contents": "/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/code/FCM/duckicon2.png\n\n",
+			"settings":
+			{
+				"buffer_size": 77,
+				"line_ending": "Unix",
+				"name": "/Users/lyla/Documents/Udacity/Courses/2AndFunRefre"
+			}
+		},
+		{
+			"contents": "package android.example.com.squawker.sync;\n\nimport android.app.IntentService;\nimport android.content.Intent;\nimport android.content.Context;\nimport android.support.annotation.NonNull;\nimport android.support.v4.widget.SwipeRefreshLayout;\n\n/**\n * An {@link IntentService} subclass for handling asynchronous task requests in\n * a service on a separate handler thread.\n * <p>\n * TODO: Customize class - update intent actions, extra parameters and static\n * helper methods.\n */\npublic class SyncSquawksIntentService extends IntentService {\n\n    public SyncSquawksIntentService() {\n        super(\"SyncSquawksIntentService\");\n    }\n\n    public static void startImmediateSync(@NonNull final Context context,\n            SwipeRefreshLayout swipeRefreshLayout) {\n        Intent intentToSyncImmediately = new Intent(context, SyncSquawksIntentService.class);\n        context.startService(intentToSyncImmediately);\n    }\n\n    @Override\n    protected void onHandleIntent(Intent intent) {\n        SquawkerSyncDatabaseTask.syncWithServer(this);\n    }\n\n}\n",
+			"settings":
+			{
+				"buffer_size": 1038,
+				"line_ending": "Unix",
+				"name": "package android.example.com.squawker.sync;"
+			}
+		},
+		{
+			"contents": "woman in sf named Simran - Simran is part of entreprenuerial fam, rich succsessful Dad - CEO of company with $1 billion - grooming Simran - degree in CS from berkeley - career in product management - product manager at square and zynga --- 2017, building a startup online edu 2mil, just now hiring first 1-2 engineers, CTO in a few weeks - simran@learn-x.co --- \n<hypen>",
+			"settings":
+			{
+				"buffer_size": 370,
+				"line_ending": "Unix",
+				"name": "woman in sf named Simran - Simran is part of entre"
+			}
+		},
+		{
+			"contents": "Hey Dan - I have an FCM related question. The FCM app I'm making is a one sided twitter clone called Squawker. Right now I have it sending messages to the phone and storing them in a content provider when they come in. When the app first starts, the local cache is empty, because it doesn't get any of the previous \"squawks\".\n\n I should probably have a job scheduler or something running in the background, downloading an original batch of messages and any messages it missed if the phone is off/not connected to the internet. Does a job scheduler running in the background periodically downloading messages and then comparing them to what's already stored in the db (and not saving any it already got from FCM) make sense, or is there a better way to handle this?",
+			"settings":
+			{
+				"buffer_size": 764,
+				"line_ending": "Unix",
+				"name": "Hey Dan - I have an FCM related question. The FCM"
+			}
+		},
+		{
+			"file": "views/home.hbs",
+			"settings":
+			{
+				"buffer_size": 1114,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "fpw4ZQQ6uWs:APA91bGikxUdFeZD9lfCYRNVXSoObWs8XGHNMkSVskVNd3NPCkFPs3xfYpUEuDaeRl2V6jvLsqcJkv93X98kNw5LHNe7Ae99YTZDyeAUuEGBclWG0Mtw_lJJ1hecyL7kUIC2-HFh7Vud",
+			"settings":
+			{
+				"buffer_size": 152,
+				"line_ending": "Unix",
+				"name": "fpw4ZQQ6uWs:APA91bGikxUdFeZD9lfCYRNVXSoObWs8XGHNMk"
 			}
 		},
 		{
 			"file": ".gitignore",
 			"settings":
 			{
-				"buffer_size": 1640,
+				"buffer_size": 1651,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"contents": "<html>  \n  <head>\n    <title>Squawker Server</title>\n  </head>\n  <body>\n    {{{body}}}\n  </body>\n</html>",
 			"file": "views/layouts/main.hbs",
-			"file_size": 107,
-			"file_write_time": 131269940300000000,
 			"settings":
 			{
-				"buffer_size": 104,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "node_modules/keys.js",
-			"settings":
-			{
-				"buffer_size": 368,
+				"buffer_size": 124,
 				"line_ending": "Unix"
 			}
 		},
 		{
 			"file": "corpus/test.txt",
+			"settings":
+			{
+				"buffer_size": 2467,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "corpus/lyla.txt",
 			"settings":
 			{
 				"buffer_size": 2023,
@@ -566,18 +644,46 @@
 			}
 		},
 		{
-			"file": "/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/tools/get-tweets.py",
+			"file": "corpus/cezanne.txt",
 			"settings":
 			{
-				"buffer_size": 1942,
+				"buffer_size": 560,
+				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "views/home.hbs",
+			"file": "corpus/nikita.txt",
 			"settings":
 			{
-				"buffer_size": 607,
+				"buffer_size": 472,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "corpus/asser.txt",
+			"settings":
+			{
+				"buffer_size": 890,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/tools/get-tweets.py",
+			"settings":
+			{
+				"buffer_size": 1941,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "corpus/jlin.txt",
+			"settings":
+			{
+				"buffer_size": 852,
 				"encoding": "UTF-8",
 				"line_ending": "Unix"
 			}
@@ -684,10 +790,16 @@
 	],
 	"file_history":
 	[
-		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/node_modules/keys.js",
 		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/corpus/test.txt",
-		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/tools/get-tweets.py",
+		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/.git/COMMIT_EDITMSG",
+		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/code/FCM/Squawker/.git/MERGE_MSG",
+		"/etc/pf.conf",
 		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/code/FCM/Squawker/.git/COMMIT_EDITMSG",
+		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/keys.json",
+		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/node_modules/keys.js/README.md",
+		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/node_modules/keys.js",
+		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/node_modules/keys.js/src/keys.js",
+		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/tools/get-tweets.py",
 		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/fcm_code.js",
 		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/fcm.js",
 		"/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/FCMTestNode/nodeserver.js",
@@ -805,13 +917,7 @@
 		"/Users/lyla/Documents/Udacity/Courses/Firebase/ClassJson/ForMiscScreenshots/Lesson4Generic/4.06code.json",
 		"/Users/lyla/Documents/Udacity/Courses/Firebase/ShoppingListPlusPlus/rules/rules_final.bolt",
 		"/Users/lyla/Documents/Udacity/Courses/Firebase/Notes/Optionforslplusplus",
-		"/Users/lyla/Documents/Udacity/Courses/Firebase/ClassJson/ForMiscScreenshots/Lesson5/L5securityflawnotes",
-		"/Users/lyla/Documents/Udacity/Courses/Firebase/ShoppingList/app/rules/rules.json",
-		"/Users/lyla/Documents/Udacity/Courses/Firebase/Notes/pythontry.py",
-		"/Users/lyla/Documents/Udacity/Courses/Firebase/ShoppingListPlusPlus/rules/json_messingaround.json",
-		"/Users/lyla/Documents/Udacity/Courses/Firebase/ClassJson/ForMiscScreenshots/Lesson5/rules.json",
-		"/Users/lyla/Documents/Udacity/Courses/Firebase/ShoppingListPlusPlus/rules/howToMakeRules",
-		"/Users/lyla/Documents/Udacity/Courses/Firebase/ShoppingListPlusPlus/rules/L5emailaboutissues"
+		"/Users/lyla/Documents/Udacity/Courses/Firebase/ClassJson/ForMiscScreenshots/Lesson5/L5securityflawnotes"
 	],
 	"find":
 	{
@@ -830,6 +936,22 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"generateMe",
+			"time",
+			"generate",
+			"mark",
+			"slice",
+			"addini",
+			". ",
+			"value=\"{{",
+			"\"{{",
+			"value=\"{{",
+			"clientTokenInputName",
+			"bfg",
+			"keys",
+			"key",
+			"keys.client",
+			"FCM_",
 			"Marko",
 			"’",
 			"‘",
@@ -941,23 +1063,7 @@
 			"getOwner",
 			"user",
 			"timestamp",
-			"Timestamp",
-			"email",
-			"* ",
-			" *",
-			":",
-			"’",
-			"”",
-			"k”",
-			"#",
-			"“",
-			">",
-			"<",
-			"cleanup",
-			"”",
-			" “",
-			"\t",
-			"@"
+			"Timestamp"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -975,7 +1081,7 @@
 	"groups":
 	[
 		{
-			"selected": 6,
+			"selected": 3,
 			"sheets":
 			[
 				{
@@ -984,15 +1090,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1854,
+						"buffer_size": 8740,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1820,
-								1820
+								5555,
+								5555
 							]
 						],
 						"settings":
@@ -1001,31 +1107,173 @@
 							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
 						},
 						"translation.x": 0.0,
-						"translation.y": 306.0,
+						"translation.y": 2842.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 2,
+					"stack_index": 8,
 					"type": "text"
 				},
 				{
 					"buffer": 1,
-					"file": ".gitignore",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1640,
+						"buffer_size": 247,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								802,
-								802
+								246,
+								246
 							]
 						],
 						"settings":
 						{
+							"auto_name": "01-13 17:40:29.632 23421-23421/android.example.com",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 0,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 998,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								103,
+								103
+							]
+						],
+						"settings":
+						{
+							"auto_name": "spammy people keep clicking, then what? <--- this",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 77,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								77,
+								77
+							]
+						],
+						"settings":
+						{
+							"auto_name": "/Users/lyla/Documents/Udacity/Courses/2AndFunRefre",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1038,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								1038
+							]
+						],
+						"settings":
+						{
+							"auto_name": "package android.example.com.squawker.sync;",
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 370,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								362,
+								362
+							]
+						],
+						"settings":
+						{
+							"auto_name": "woman in sf named Simran - Simran is part of entre",
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
@@ -1036,12 +1284,124 @@
 					"type": "text"
 				},
 				{
-					"buffer": 2,
+					"buffer": 7,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 764,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								764,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "Hey Dan - I have an FCM related question. The FCM",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "views/home.hbs",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1114,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								380,
+								380
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 152,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								152,
+								152
+							]
+						],
+						"settings":
+						{
+							"auto_name": "fpw4ZQQ6uWs:APA91bGikxUdFeZD9lfCYRNVXSoObWs8XGHNMk",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": ".gitignore",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1651,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1651,
+								1651
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
 					"file": "views/layouts/main.hbs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 104,
+						"buffer_size": 124,
 						"regions":
 						{
 						},
@@ -1061,16 +1421,16 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 3,
-					"file": "node_modules/keys.js",
+					"buffer": 12,
+					"file": "corpus/test.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 368,
+						"buffer_size": 2467,
 						"regions":
 						{
 						},
@@ -1078,23 +1438,23 @@
 						[
 							[
 								0,
-								0
+								2023
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 5,
+					"stack_index": 17,
 					"type": "text"
 				},
 				{
-					"buffer": 4,
-					"file": "corpus/test.txt",
+					"buffer": 13,
+					"file": "corpus/lyla.txt",
 					"semi_transient": false,
 					"settings":
 					{
@@ -1105,8 +1465,8 @@
 						"selection":
 						[
 							[
-								797,
-								797
+								1678,
+								1678
 							]
 						],
 						"settings":
@@ -1117,54 +1477,139 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 12,
 					"type": "text"
 				},
 				{
-					"buffer": 5,
-					"file": "/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/tools/get-tweets.py",
+					"buffer": 14,
+					"file": "corpus/cezanne.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1942,
+						"buffer_size": 560,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1177,
-								1177
+								560,
+								560
 							]
 						],
 						"settings":
 						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 14,
+					"type": "text"
+				},
+				{
+					"buffer": 15,
+					"file": "corpus/nikita.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 472,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								367,
+								367
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 16,
+					"type": "text"
+				},
+				{
+					"buffer": 16,
+					"file": "corpus/asser.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 890,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								890,
+								890
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 17,
+					"file": "/Users/lyla/Documents/Udacity/Courses/2AndFunRefresh/tools/get-tweets.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 1941,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1851,
+								1851
+							]
+						],
+						"settings":
+						{
+							"auto_complete": false,
 							"syntax": "Packages/Python/Python.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 147.0,
+						"translation.y": 110.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 4,
+					"stack_index": 18,
 					"type": "text"
 				},
 				{
-					"buffer": 6,
-					"file": "views/home.hbs",
+					"buffer": 18,
+					"file": "corpus/jlin.txt",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 607,
+						"buffer_size": 852,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								542,
-								542
+								852,
+								852
 							]
 						],
 						"settings":
@@ -1175,7 +1620,7 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 0,
+					"stack_index": 15,
 					"type": "text"
 				}
 			]
