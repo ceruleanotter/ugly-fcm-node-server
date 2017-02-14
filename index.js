@@ -25,7 +25,7 @@ LOG_LEVEL=INFO FCK_KEY=12345 PORT=8080 npm start
 const path = require('path');
 const express = require('express');
 const exphbs = require('express-handlebars');
-const keys = require('./keys.json');
+//const keys = require('./keys.json');
 const MarkovChain = require('markovchain');
 const fs = require('fs');
 const FCM = require('fcm-node');
@@ -48,7 +48,7 @@ const log = bunyan.createLogger({
     },
     level: process.env.LOG_LEVEL || bunyan.INFO,
 }); // a global bunyan logger
-const serverkey = process.env.FCM_KEY || keys.server;
+//const serverkey = process.env.FCM_KEY || keys.server;
 
 
 const testMarkovFile = './corpus/test.txt';
@@ -57,6 +57,7 @@ const testMarkov = new MarkovChain(fs.readFileSync(testMarkovFile, 'utf8'));
 //Inputs 
 
 const CLIENT_API_KEY = 'clientApiKey'
+const SERVER_KEY = 'serverKey'
 const ASSER_KEY = 'key_asser'
 const CEZANNE_KEY = 'key_cezanne'
 const JLIN_KEY = 'key_jlin'
@@ -177,7 +178,7 @@ function setupCDObjects() {
 
 
 
-const sendTestFCMMessage = function(clientToken) {
+const sendTestFCMMessage = function(clientToken, serverKey) {
 	var testMessage = testMarkov.start(useUpperCase).end().process();
 
 	const message = {
@@ -190,8 +191,8 @@ const sendTestFCMMessage = function(clientToken) {
 	    }
 	};
 
-	log.debug('creating an fcm connection using key %s', serverkey);
-	const fcm = new FCM(keys.server); // the Firebase Cloud Messaging connection
+	//log.debug('creating an fcm connection using key %s', serverkey);
+	const fcm = new FCM(serverKey); // the Firebase Cloud Messaging connection
 	fcm.send(message, function(err, response){
 		log.debug('Tried to send message: %s', message);
 	    if (err) {
@@ -208,7 +209,7 @@ const sendTestFCMMessage = function(clientToken) {
 
 
 
-const sendFCMMessage = function(courseDeveloper) {
+const sendFCMMessage = function(courseDeveloper, serverKey) {
 
 // check who the course developer is, if it's random, then send to the api key
 
@@ -238,8 +239,8 @@ const sendFCMMessage = function(courseDeveloper) {
 	    }
 	};
 
-	log.debug('creating an fcm connection using key %s', serverkey);
-	const fcm = new FCM(keys.server); // the Firebase Cloud Messaging connection
+	//log.debug('creating an fcm connection using key %s', serverkey);
+	const fcm = new FCM(serverKey); // the Firebase Cloud Messaging connection
 	fcm.send(message, function(err, response){
 		log.debug('Tried to send message: %s', message);
 	    if (err) {
@@ -267,8 +268,8 @@ app.set('views', path.join(__dirname, 'views'))
 
 app.get('/', (request, response) => {
   response.render('home', {
-    name: 'Lyla',
     clientToken: CLIENT_API_KEY,
+    serverKey: SERVER_KEY,
     asser_key: ASSER_KEY,
     cezanne_key: CEZANNE_KEY,
     jlin_key: JLIN_KEY,
@@ -284,14 +285,14 @@ app.get('/messages', (req, res) => {
 
 
 app.post('/dm', function(req, res) {
-  log.debug({req:req}, 'Request body was %s', req.body);
-  var message = sendTestFCMMessage(req.body.clientApiKey) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
+  log.debug({req:req}, 'Request body was %s', req.body.serverKey);
+  var message = sendTestFCMMessage(req.body.clientApiKey, req.body.serveryKey) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
   res.send(message);
 });
 
 app.post('/cd', function(req, res) {
   log.debug({req:req}, 'Request body was %s', req.body);
-  var message = sendFCMMessage(req.body.groupCD) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
+  var message = sendFCMMessage(req.body.groupCD, req.body.serverKey) // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
   res.send(message);
 });
 
