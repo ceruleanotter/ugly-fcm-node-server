@@ -191,7 +191,7 @@ const sendTestFCMMessage = (clientToken, serverKey) => {
     },
   };
 
-	// log.debug('creating an fcm connection using key %s', serverkey);
+	log.error('creating an fcm connection using key %s', serverKey);
 	const fcm = new FCM(serverKey); // the Firebase Cloud Messaging connection
 	fcm.send(message, (err, response) => {
 		log.debug('Tried to send message: %s', message);
@@ -283,7 +283,7 @@ app.get('/messages', (req, res) => {
 
 app.post('/dm', (req, res) => {
   log.debug({req: req}, 'Request body was %s', req.body.serverKey);
-  const message = sendTestFCMMessage(req.body.clientApiKey, req.body.serveryKey); // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
+  const message = sendTestFCMMessage(req.body.clientApiKey, req.body.serverKey); // How can I set this to CLIENT_API_KEY's value instead of hardcoding?
   res.send(message);
 });
 
