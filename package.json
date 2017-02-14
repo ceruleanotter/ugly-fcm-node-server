@@ -1,5 +1,5 @@
 {
-  "name": "fcm-test-node",
+  "name": "SquawkerFCMServer",
   "version": "1.0.0",
   "description": "test server for sending fcm messages on node",
   "main": "index.js",
@@ -12,11 +12,13 @@
     "httpdispatcher": "^2.0.1",
     "markovchain": "^1.0.2"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.15.0",
+    "eslint-config-google": "^0.7.1"
+  },
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "Lyla Fujiwara <lyla@udacity.com>"
 }
