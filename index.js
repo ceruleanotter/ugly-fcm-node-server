@@ -98,7 +98,8 @@ inMemoryMessageQ.generateMessage = function(courseDeveloper, time) {
 	var messageObject = {
 		author : author,
 		message : message, 
-		date : time
+		date : time,
+		authorKey : cdObject.key
 	};
 
 	// Add message to the queue
@@ -128,8 +129,6 @@ function CourseDeveloper(key) {
 	if (key === JLIN_KEY) {
 		nameUpper = "JLin";
 	}
-
-
 
 	this.name = nameUpper;
 	var markovFile = './corpus/' + nameLower + '.txt';
@@ -187,7 +186,7 @@ const sendTestFCMMessage = function(clientToken) {
 	        author: 'TestAccount',
 	        message: testMessage,
 	        date: Date.now(),
-	        test: true
+	        authorKey: TEST_KEY
 	    }
 	};
 
@@ -234,7 +233,8 @@ const sendFCMMessage = function(courseDeveloper) {
 	    data: {  //you can send only notification or only data(or include both)
 	        author: markovMessage.author,
 	        message: markovMessage.message,
-	        date: markovMessage.date
+	        date: markovMessage.date,
+	        authorKey: markovMessage.authorKey
 	    }
 	};
 
