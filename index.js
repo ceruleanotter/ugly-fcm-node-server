@@ -91,7 +91,7 @@ inMemoryMessageQ.generateMessage = function(courseDeveloper, time) {
 
 	log.info(`course developer is ${cdObject}`);
 
-	const author = `TheReal ${cdObject.name}`;
+	const author = `TheReal${cdObject.name}`;
 	let message = cdObject.markovChain.start(useUpperCase).end().process();
 
 	// if the message length is greater than 140, reduce the length of the message to less than that
@@ -191,7 +191,6 @@ const sendTestFCMMessage = (clientToken, serverKey) => {
     },
   };
 
-	log.error('creating an fcm connection using key %s', serverKey);
 	const fcm = new FCM(serverKey); // the Firebase Cloud Messaging connection
 	fcm.send(message, (err, response) => {
 		log.debug('Tried to send message: %s', message);
