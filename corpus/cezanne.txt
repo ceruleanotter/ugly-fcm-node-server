@@ -1,1 +1,17 @@
-Utilizing computer vision and machine learning techniques, such as supervised learning and graph-mining, this project aims to automatically count and detect embryonic cells as they grow. Utilizing computer vision and machine learning techniques, such as supervised learning and graph-mining, this project aims to automatically count and detect embryonic cells as they grow. Utilizing computer vision and machine learning techniques, such as supervised learning and graph-mining, this project aims to automatically count and detect embryonic cells as they grow.
+I learned to love programming through an interactive art with Java class
+Public Service Announcement: #cuteanimaltweetoff
+For me, learning Java has been foundational for learning Android app development
+Missy Elliott is so good I sometimes wonder if this world deserves her
+I recommend the video game Undertale, I like the characters a lot!
+I love working at Udacity because I get to meet so many brilliant people
+If you could wake up one day with a new skill, what would you want it to be?
+In good news: Rihanna is named Harvard U Humanitarian of the Year (2017)
+Proud of Seattle for divesting from Wells Fargo #NoDAPL
+Computer Vision is the study of how computers perceive the world (through cameras, sensors) and then act on those perceptions
+My favorite days are gray days
+Where is the closest place I can go to hold a puppy?
+Me singing to my food: We’ve been through so many things, ups and downs and in betweens
+I started programming so I could help develop new medical imaging technologies and now I’m working on teaching those same concepts to help self-driving cars navigate the world!
+Currently reading: Maggie Nelson’s The Argonauts #lit
+I’m lucky to have such wonderful friends who help me learn and grow!
+The NYTimes has a really interesting article out about the birth of Deep Learning and AI called "The Great AI Awakening"
