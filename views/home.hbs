@@ -1,7 +1,7 @@
 <h2>The Squawker Server</h2>
-This is a server for sending Squawks. You can either directly message a single phone, or send a message to all phone listening for certain CDs
+This is a server for sending Squawks. You can either directly message a single phone, or send a message to all devices following certain instructors.
 
-<h3>Direct Message Phone Random Squawk</h3>
+<h3>Squawk to a Single Device</h3>
 
 
 <form method="post" action="/dm">
@@ -9,23 +9,21 @@ This is a server for sending Squawks. You can either directly message a single p
   <br/>
   <input type="test" name="{{serverKey}}"><br/>
   <br/>
-  <br/>
-  Enter the ID token of the phone to send a random Squawk to.
-  <br/>
+  Enter the ID token of the phone to send a random Squawk to
   <br/>
   <input type="test" name="{{clientToken}}"><br/>
   <br/>
   <input type="submit" value="Send Squawk">
 </form>
 
-<h3>Direct Message Phone Random Squawk</h3>
+<h3>Instructor Squawk</h3>
 <form method="post" action="/cd">
   Enter your server key
   <br/>
-  <input type="test" name="{{serverKey}}"><br/>
+  <input type="test" name="{{serverKey}}">
   <br/>
   <br/>
-  Choose which course developer sends the squawk. Use this for testing topic messages.
+  Choose which instructor to generate a test Squawk for. Use this for testing topic messages.
   <br/>
   <br/>
   <input type="radio" name="groupCD" value="{{asser_key}}"> Asser<br/>
